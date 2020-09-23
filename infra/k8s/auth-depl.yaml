@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth # name for logging
-          image: karanveersinghdocker/auth
+          image: us.gcr.io/ticket-dev-290419/auth
 ---
 # create a clyster IP Service for the deployment to get access to a pod, usually services have 1 to 1 mapping w/ deployment if so can do in 1 file
 apiVersion: v1

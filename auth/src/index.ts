@@ -4,7 +4,7 @@ import { json } from "body-parser";
 const app = express();
 app.use(json());
 
-app.get("/api/users/currentuser", (req, res) => {
+app.get("/api/users/currentUser", (req, res) => {
 	res.send("sent from auth get");
 });
 
