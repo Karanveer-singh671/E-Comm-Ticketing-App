@@ -4,18 +4,15 @@ deploy:
   kubectl:
     manifests:
       - ./infra/k8s/*
-build: # when build an image do not push it to DockerHub (default behavior)
+build:
   local:
     push: false
-  # googleCloudBuild:
-  #   projectId: ticket-dev-290419
   artifacts:
-    # - image: us.gcr.io/ticket-dev-290419/auth
     - image: karanveersinghdocker/auth
-      context: auth # folder that contains all code for the image
+      context: auth
       docker:
         dockerfile: Dockerfile
       sync:
-        manual: # set of files scaffold needs to watch
+        manual:
           - src: "src/**/*.ts"
-            dest: . # where to sync the file inside our running container
+            dest: .

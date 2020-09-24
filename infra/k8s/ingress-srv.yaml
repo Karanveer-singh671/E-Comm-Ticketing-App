@@ -1,14 +1,13 @@
-# how to handle incoming requests
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/use-regex: "true" # should expect paths listed below have regex
+    nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: ticket.dev
+    - host: ticketing.dev
       http:
         paths:
           - path: /api/users/?(.*)

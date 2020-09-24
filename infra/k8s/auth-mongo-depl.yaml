@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: auth-mongo # applied to the pod, service will get it from here
+        app: auth-mongo
     spec:
       containers:
         - name: auth-mongo
@@ -22,9 +22,9 @@ metadata:
   name: auth-mongo-srv
 spec:
   selector:
-    app: auth-mongo # find set of pods with selector auth-mongo
+    app: auth-mongo
   ports:
     - name: db
       protocol: TCP
-      port: 27017 # mongo image listens on this port by default
+      port: 27017
       targetPort: 27017
