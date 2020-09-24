@@ -8,13 +8,12 @@ export const errorHandler = (
 	next: NextFunction
 ) => {
 	if (err instanceof RequestValidationError) {
-		const formattedErrors = err.errors.map((err) => {
-			return { message: err.msg, field: err.param };
-		});
-		return res.status(400).send({ errors: formattedErrors });
+		// delegate each error formatting required for each error class within itself rather than the middleware
+		// for scalability if have many custom error subclasses the middleware won't need to know implementation (abstraction)
+		return res.status(err.statusCode).send({ errors: err.serializeErrors() });
 	}
 	if (err instanceof DatabaseConnectionError) {
-		return res.status(500).send({ errors: [{ message: err.reason }] });
+		return res.status(err.statusCode).send({ errors: err.serializeErrors() });
 	}
 	// need consistent structure for error handling middleware
 	res.status(400).send({
