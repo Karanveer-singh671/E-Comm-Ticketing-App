@@ -36,14 +36,18 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.build = (attrs: UserAttrs) => {
 	return new User(attrs);
 };
-
+// <arg,arg> the angle brackets are types being provided to functions as arguments
+// model takes in UserDoc type
+// returning something of type UserModel
+// generic types
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
-const user = User.build({
-	email: "test@test.com",
-	password: "123",
-});
-user.email;
+// can access like below now
+// const user = User.build({
+// 	email: "test@test.com",
+// 	password: "123",
+// });
+// user.email;
 
 // typescript has no information if type key value wrong and cannot check
 // new User({
