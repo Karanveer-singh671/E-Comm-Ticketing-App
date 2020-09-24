@@ -5,16 +5,17 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build: # when build an image do not push it to DockerHub (default behavior)
-  # local:
-  #   push: false
-  googleCloudBuild:
-    projectId: ticket-dev-290419
+  local:
+    push: false
+  # googleCloudBuild:
+  #   projectId: ticket-dev-290419
   artifacts:
-    - image: us.gcr.io/ticket-dev-290419/auth
+    # - image: us.gcr.io/ticket-dev-290419/auth
+    - image: karanveersinghdocker/auth
       context: auth # folder that contains all code for the image
-      docker: 
+      docker:
         dockerfile: Dockerfile
-      sync:    
-        manual:  # set of files scaffold needs to watch
-          - src: 'src/**/*.ts'
-            dest: . # where to sync the file inside our running container 
+      sync:
+        manual: # set of files scaffold needs to watch
+          - src: "src/**/*.ts"
+            dest: . # where to sync the file inside our running container
