@@ -41,14 +41,15 @@ router.post(
 				email: user.email,
 			},
 			// private key to verify signature
-			process.env.JWT_KEY
+			// '!' at end means we are sure this has been checked and not null | undefined
+			process.env.JWT_KEY!
 		);
 		// type definition file does not want to assume that there is an object on req.session
 		// req.session.jwt = {
 		// 	jwt: userJwt,
 		// };
 		// says expression is not null
-		req.session.jwt! = userJwt;
+		req.session!.jwt = userJwt;
 
 		res.status(201).send(user);
 	}
