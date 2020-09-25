@@ -35,6 +35,10 @@ app.all("*", async (req, res) => {
 app.use(errorHandler);
 
 const start = async () => {
+	// do this check so know when we do deploy that something is wrong not after when applicaton has been running for some time
+	if (!process.env.JWT_KEY) {
+		throw new Error("JWT_KEY must be defined in yaml file");
+	}
 	try {
 		await mongoose.connect("mongodb://auth-mongo-srv:27017/auth", {
 			useNewUrlParser: true,
