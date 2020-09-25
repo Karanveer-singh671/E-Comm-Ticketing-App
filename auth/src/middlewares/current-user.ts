@@ -20,7 +20,8 @@ declare global {
 	}
 }
 
-// used to check if user logged in and if not then don't give access to certain route handlers
+// used to check if user logged in or not
+// when any other route handler needs to know who the current user is we can use this middleware
 export const currentUser = (
 	req: Request,
 	res: Response,
