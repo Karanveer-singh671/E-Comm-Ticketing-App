@@ -1,9 +1,12 @@
-import express from 'express';
+import express from "express";
 
 const router = express.Router();
 
-router.post('/api/users/signout', (req, res) => {
-  res.send('Hi there!');
+// to sign out send back a header telling browser to empty the cookie
+router.post("/api/users/signout", (req, res) => {
+	req.session = null;
+	// need to send back response so empty object
+	res.send({});
 });
 
 export { router as signoutRouter };
