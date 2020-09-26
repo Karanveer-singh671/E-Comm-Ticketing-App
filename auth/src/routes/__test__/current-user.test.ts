@@ -15,3 +15,14 @@ it("Should respond with details about the current user", async () => {
 
 	expect(response.body.currentUser.email).toEqual("a@a.com");
 });
+
+it("should respond with null if not authenticated", async () => {
+	// request should be 200 but no cookie should be set so not authenticated
+	const response = await request(app)
+		.get("/api/users/currentuser")
+		// set cookie
+		.send()
+		.expect(200);
+
+	expect(response.body.currentUser).toEqual(null);
+});
