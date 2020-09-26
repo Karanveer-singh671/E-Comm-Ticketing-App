@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password";
-import { errorHandler } from "../middlewares/error-handler";
 
 // An interface that describes the properties
-// that are requried to create a new User
+// that are required to create a new User
 interface UserAttrs {
 	email: string;
 	password: string;

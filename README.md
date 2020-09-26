@@ -1,8 +1,8 @@
 ## Goals
 
-### Create a Production grade E-comm Ticket application using a Micro-service Architecture
+### Create a Production grade E-Comm Ticket Management application using a Micro-service Architecture
 
-##### Utilize Technologies such as: Ingress-Nginx, Skaffold, Google Cloud Build, Docker, Kubernetes, Typescript, Node, Redis, Mongoose, MongoDB, JSON Web Tokens, ReactJS, NextJS, NATS Streaming Server, Stripe, Service workers, git
+##### Utilize Technologies such as: Typescript, NodeJS, ExpressJS, Docker, Kubernetes, Ingress-Nginx, Skaffold, Mongoose, MongoDB, Redis, JSON Web Tokens, Jest, SuperTest, ReactJS, NextJS, NATS Streaming Server, Stripe, Service workers, git, Google Cloud Build
 
 ###### 1. Users can list a ticket for an event e.g sports as for sale
 
