@@ -19,7 +19,9 @@ app.use(json());
 app.use(
 	cookieSession({
 		signed: false, // no encryption
-		secure: true, // Https connection
+		// says when we set equal to test it will be false else we require it to be true
+		// to allow supertest to work since it doesn't send request thru https connection
+		secure: process.env.NODE_ENV !== "test", // Https connection
 	})
 );
 
