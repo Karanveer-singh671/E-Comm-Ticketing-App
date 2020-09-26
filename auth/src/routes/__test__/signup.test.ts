@@ -1,6 +1,5 @@
 import request from "supertest";
 import { app } from "../../app";
-import { Password } from "../../services/password";
 // return or await request
 it("should return a 201 on a successful signup", async () => {
 	return request(app)
