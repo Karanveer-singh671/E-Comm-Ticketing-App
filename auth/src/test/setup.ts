@@ -1,6 +1,17 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../app";
+
+declare global {
+	namespace NodeJS {
+		interface Global {
+			// returns Promise that will resolve with array of strings
+			signin(): Promise<string[]>;
+		}
+	}
+}
+
 let mongo: any;
 // before any tests start up create MongoMemoryServer instance in memory
 // allow us to run multiple different test suites at same time across different micro-services
@@ -30,3 +41,21 @@ afterAll(async () => {
 	await mongo.stop();
 	await mongoose.connection.close();
 });
+
+// use global so don't need to import for each test file using
+global.signin = async () => {
+	const email = "a@a.com";
+	const password = "password";
+
+	const response = await request(app)
+		.post("/api/users/signup")
+		.send({
+			email,
+			password,
+		})
+		.expect(201);
+
+	const cookie = response.get("Set-Cookie");
+
+	return cookie;
+};
