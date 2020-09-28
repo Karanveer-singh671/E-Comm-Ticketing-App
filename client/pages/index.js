@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const LandingPage = ({ curretnUser }) => {
-	console.log("LandingPage -> I am in the component", curretnUser);
+const LandingPage = ({ currentUser }) => {
+	console.log("LandingPage -> I am in the component", currentUser);
 	return <h1>Landing Page</h1>;
 };
 // get initial props is our chance to get data that we need in our application during SSR process! e.g current User
