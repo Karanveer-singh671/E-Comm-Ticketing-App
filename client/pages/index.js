@@ -2,7 +2,11 @@ import axios from "axios";
 import buildClient from "../api/build-client";
 
 const LandingPage = ({ currentUser }) => {
-	return <h1>Landing Page</h1>;
+	return currentUser ? (
+		<h1>You are signed in</h1>
+	) : (
+		<h1> you are not signed in</h1>
+	);
 };
 // get initial props is our chance to get data that we need in our application during SSR process! e.g current User
 // when we try to receive this component this method is called first
