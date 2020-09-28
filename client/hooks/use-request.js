@@ -1,13 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default ({ url, method, body }) => {
+export default ({ url, method, body, onSuccess }) => {
 	const [errors, setErrors] = useState(null);
 	const doRequest = async () => {
 		// allow get,post patch delete method to be attached as axios.method like below
 		try {
 			setErrors(null);
 			const response = await axios[method](url, body);
+
+			if (onSuccess) {
+				onSuccess(response.data);
+			}
 			return response.data;
 		} catch (err) {
 			setErrors(

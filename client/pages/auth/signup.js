@@ -1,6 +1,6 @@
 // now path nextJS uses will be auth/signup
 import { useState } from "react";
-import axios from "axios";
+import router, { Router } from "next/router";
 import useRequest from "../../hooks/use-request";
 
 export default () => {
@@ -13,9 +13,12 @@ export default () => {
 			email,
 			password,
 		},
+		onSuccess: () => Router.push("/"),
 	});
 	const onSubmit = async (e) => {
 		e.preventDefault();
+		// caught error in use-request so will move to router.push regardless so need to throw error in use Request if caught
+		// or onSuccess callback ned
 		doRequest();
 	};
 
