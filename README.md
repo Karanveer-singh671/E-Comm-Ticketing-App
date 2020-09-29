@@ -2,7 +2,7 @@
 
 ### Create a Production grade E-Comm Ticket Management application using a Micro-service Architecture
 
-##### Utilize Technologies such as: Typescript, NodeJS, ExpressJS, Docker, Kubernetes, Ingress-Nginx, Skaffold, Mongoose, MongoDB, Redis, JSON Web Tokens, Jest, SuperTest, ReactJS, NextJS, NATS Streaming Server, Stripe, Service workers, git, Google Cloud Build
+##### Utilize Technologies such as: Typescript(strongly typed, static lang), NodeJS (runtime environment), ExpressJS(framework for Node), Docker(manage images, containers), Kubernetes(cluster and manage multiple services, deployments and pods), Ingress-Nginx(route our request to specific services), Skaffold(runs kubectl apply -f on file mondification), Mongoose (mongoose model used to get specific data from mongoDB), MongoDB(noSQL db), Redis(in-memory no sql db cache), JSON Web Tokens(auth), cookies(auth) Jest(testing framework), SuperTest(testrunner), ReactJS(clientside framework), NextJS(ServerSideRendering), NATS Streaming Server, Stripe(payments), Service workers, git(version control), Google Cloud Build(deploy to cloud)
 
 ###### 1. Users can list a ticket for an event e.g sports as for sale
 
