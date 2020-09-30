@@ -46,9 +46,11 @@ afterAll(async () => {
 // use global so don't need to import for each test file using
 // as soon as async used typescript will think promise is returned
 global.signin = () => {
+	// EACH REQUEST SHOULD HAVE A NEW ID
+	const id = mongoose.Types.ObjectId().toHexString();
 	// build a JWT payload. {id, email}
 	const payload = {
-		id: "12", // randomBytes
+		id: id, // randomBytes
 		email: "a@a.com",
 	};
 	// create the JWT! use sign method to create
