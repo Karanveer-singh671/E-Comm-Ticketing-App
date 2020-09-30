@@ -2,12 +2,13 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import request from "supertest";
 import { app } from "../app";
+import jwt from "jsonwebtoken";
 
 declare global {
 	namespace NodeJS {
 		interface Global {
 			// returns Promise that will resolve with array of strings
-			signin(): Promise<string[]>;
+			signin(): string[];
 		}
 	}
 }
@@ -43,16 +44,24 @@ afterAll(async () => {
 });
 
 // use global so don't need to import for each test file using
-global.signin = async () => {
+// as soon as async used typescript will think promise is returned
+global.signin = () => {
 	// build a JWT payload. {id, email}
-
-	// create the JWT!
-
+	const payload = {
+		id: "12", // randomBytes
+		email: "a@a.com",
+	};
+	// create the JWT! use sign method to create
+	const token = jwt.sign(payload, process.env.JWT_KEY!);
 	// Build up the session object. {jwt: MY_JWT}
-
+	const session = {
+		jwt: token,
+	};
 	// Turn that session into json
-
-	// Take JSON and encode it as base64
-
+	const sessionJSON = JSON.stringify(session);
+	// Take JSON and encode it as base64 string
+	const base64 = Buffer.from(sessionJSON).toString("base64");
 	// return a string thats the cookie with the encoded data
+	// expectation with supertest is to include all cookies into an array
+	return [`express:sess=${base64}`];
 };
