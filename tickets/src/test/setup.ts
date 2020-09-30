@@ -44,18 +44,15 @@ afterAll(async () => {
 
 // use global so don't need to import for each test file using
 global.signin = async () => {
-	const email = "a@a.com";
-	const password = "password";
+	// build a JWT payload. {id, email}
 
-	const response = await request(app)
-		.post("/api/users/signup")
-		.send({
-			email,
-			password,
-		})
-		.expect(201);
+	// create the JWT!
 
-	const cookie = response.get("Set-Cookie");
+	// Build up the session object. {jwt: MY_JWT}
 
-	return cookie;
+	// Turn that session into json
+
+	// Take JSON and encode it as base64
+
+	// return a string thats the cookie with the encoded data
 };

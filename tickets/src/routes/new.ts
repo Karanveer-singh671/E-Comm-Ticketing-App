@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
-import { post } from "superagent";
+import { requireAuth } from "@ksticketing/common";
 
 const router = express.Router();
 
-router.post("/api/tickets", (req: Request, res: Response) => {
+router.post("/api/tickets", requireAuth, (req: Request, res: Response) => {
 	res.sendStatus(200);
 });
+
+router;
 
 export { router as createTicketRouter };
