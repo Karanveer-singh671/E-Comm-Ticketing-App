@@ -3,8 +3,9 @@ import "express-async-errors";
 import { json } from "body-parser";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
-import { errorHandler, NotFoundError , currentUser} from "@ksticketing/common";
+import { errorHandler, NotFoundError, currentUser } from "@ksticketing/common";
 import { createTicketRouter } from "./routes/new";
+import { showTicketRouter } from "./routes/show";
 
 const app = express();
 // traffic is being proxy'd to our app thru ingress-nginx
@@ -19,8 +20,9 @@ app.use(
 		secure: process.env.NODE_ENV !== "test", // Https connection
 	})
 );
-app.use(currentUser)
+app.use(currentUser);
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 app.all("*", async (req, res) => {
 	throw new NotFoundError();
 });

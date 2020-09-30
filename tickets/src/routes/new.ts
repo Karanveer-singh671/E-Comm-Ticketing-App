@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@ksticketing/common";
-import { Ticket } from "../models/tickets";
+import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 
