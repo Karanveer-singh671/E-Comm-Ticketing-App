@@ -29,15 +29,17 @@ const ticketSchema = new mongoose.Schema({
 	userId: {
 		type: String,
 		required: true,
-	},
-	// customize Stringify method
+  }
+},
+  // customize Stringify method
+  {
 	toJSON: {
 		transform(doc, ret) {
 			// ret is what is being turned to json
 			ret.id = ret._id;
 			delete ret._id;
 		},
-	},
+  },
 });
 
 // only way to build new records so typescript can do type inference on it
