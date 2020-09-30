@@ -4,6 +4,7 @@ import { json } from "body-parser";
 import mongoose from "mongoose";
 import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError } from "@ksticketing/common";
+import { createTicketRouter } from "./routes/new";
 
 const app = express();
 // traffic is being proxy'd to our app thru ingress-nginx
@@ -18,9 +19,7 @@ app.use(
 		secure: process.env.NODE_ENV !== "test", // Https connection
 	})
 );
-
-
-
+app.use(createTicketRouter);
 app.all("*", async (req, res) => {
 	throw new NotFoundError();
 });
