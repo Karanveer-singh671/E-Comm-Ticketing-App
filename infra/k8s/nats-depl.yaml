@@ -17,15 +17,15 @@ spec:
           image: nats-streaming:0.17.0
           args:
             [
-              "-p",
+              "-p", # client port
               "4222",
               "-m",
-              "8222",
-              "-hbi",
+              "8222", # monitoring port
+              "-hbi", # heart beat check
               "5s",
-              "-hbt",
+              "-hbt", # time for listener to respond
               "5s",
-              "-hbf",
+              "-hbf", # number of failures allowed before assume connection is dead
               "2",
               "-SD",
               "-cid",
