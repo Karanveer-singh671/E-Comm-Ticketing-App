@@ -8,3 +8,13 @@ const stan = nats.connect("ticketing", "abc", {
 stan.on("connect", () => {
 	console.log("Publisher connected to NATS");
 });
+
+const data = JSON.stringify({
+	id: "123",
+	title: "concert",
+	price: 20,
+});
+// subject name and data (referred to as a message, even tho it is an event) as params
+stan.publish("ticket:created", data, () => {
+	console.log("Event Published");
+});
