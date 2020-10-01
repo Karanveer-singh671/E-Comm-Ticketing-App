@@ -15,10 +15,16 @@ stan.on("connect", () => {
 		process.exit();
 	});
 	// set setManualAckMode to true then won't lose event until set event passed to true
-	const options = stan.subscriptionOptions().setManualAckMode(true);
+  // get history of events setDeliverAllAvailable() if service goes down but if list of events super large
+  // -> durable subscription to see if a service has processed that event and NATS will store what events a service has processed and what missed out on
+  // when service comes back online with same client ID it will send what need to process (instead of process all events over again)
+  // still need setDeliverAllAvailable since bring a service online for the first time can get all events emitted in the past
+  // then when restart service will only send unprocessed events from there 
+	const options = stan.subscriptionOptions().setDeliverAllAvailable().setDurableName('some-service')
+  .setManualAckMode(true);
 	const subscription = stan.subscribe(
 		"ticket:created",
-		"listenerQueueGroup",
+		"listenerQueueGroup", // makes sure even if we disconnect will not dump away durable service storage and only send event to one service
 		options
 	);
 	subscription.on("message", (msg: Message) => {
