@@ -20,7 +20,7 @@ spec:
               "-p",
               "4222",
               "-m",
-              8222,
+              "8222",
               "-hbi",
               "5s",
               "-hbt",
@@ -29,7 +29,7 @@ spec:
               "2",
               "-SD",
               "-cid",
-              "ticketing",
+              "ticketing"
             ]
 ---
 apiVersion: v1
