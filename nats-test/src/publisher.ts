@@ -10,7 +10,7 @@ const stan = nats.connect("ticketing", "abc", {
 stan.on("connect", () => {
 	console.log("Publisher connected to NATS");
 });
-
+// all data sent as string so need to stringify object json
 const data = JSON.stringify({
 	id: "123",
 	title: "concert",
