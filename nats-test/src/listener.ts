@@ -14,6 +14,9 @@ stan.on("connect", () => {
 		// close client
 		process.exit();
 	});
+
+	new TicketCreatedListener(stan).listen();
+
 	// set setManualAckMode to true then won't lose event until set event passed to true
 	// get history of events setDeliverAllAvailable() if service goes down but if list of events super large
 	// -> durable subscription to see if a service has processed that event and NATS will store what events a service has processed and what missed out on
@@ -85,5 +88,16 @@ abstract class Listener {
 			? JSON.parse(data)
 			: // how to get data from a buffer
 			  JSON.parse(data.toString("utf8"));
+	}
+}
+
+class TicketCreatedListener extends Listener {
+	subject = "ticket:created";
+	queueGroupName = "payments-service";
+	onMessage(data: any, msg: Message) {
+		// handle what need to do from Message
+		console.log("Event Data!", data);
+		// mark message as successful parsed
+		msg.ack();
 	}
 }
