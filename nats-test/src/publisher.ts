@@ -1,4 +1,5 @@
 import nats from "node-nats-streaming";
+import { TicketCreatedPublisher } from "./events/ticket-created-publisher";
 
 console.clear();
 // client is often referred to as 'stan' in documentation
@@ -7,16 +8,16 @@ const stan = nats.connect("ticketing", "abc", {
 }); // client
 
 // have to take event driven approach
-stan.on("connect", () => {
+stan.on("connect", async () => {
 	console.log("Publisher connected to NATS");
-});
-// all data sent as string so need to stringify object json
-const data = JSON.stringify({
-	id: "123",
-	title: "concert",
-	price: 20,
-});
-// subject name and data (referred to as a message, even tho it is an event) as params
-stan.publish("ticket:created", data, () => {
-	console.log("Event Published");
+
+	const publisher = new TicketCreatedPublisher(stan);
+	// publish is a async event so need to do await so
+	// manually return a new promise in the publish function and resolve reject there
+	// now can use await keyword here since returning a promise
+	await publisher.publish({
+		id: "123",
+		title: "c",
+		price: 10,
+	});
 });
