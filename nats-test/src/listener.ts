@@ -10,11 +10,6 @@ const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
 stan.on("connect", () => {
 	console.log("Listener is connected NATS");
 
-	stan.on("close", () => {
-		console.log("NATS connection closed!");
-		// close client
-		process.exit();
-	});
 
 	new TicketCreatedListener(stan).listen();
 
@@ -47,9 +42,7 @@ stan.on("connect", () => {
 	});
 });
 // when restart a listener call close
-process.on("SIGINT", () => stan.close());
 
-process.on("SIGTERM", () => stan.close());
 
 // every listerer will need what is inside the listener abstract class
 
