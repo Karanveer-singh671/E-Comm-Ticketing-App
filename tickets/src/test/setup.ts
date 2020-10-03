@@ -12,7 +12,8 @@ declare global {
 		}
 	}
 }
-
+// all tests will look for the mock NATS client 
+jest.mock("../nats-wrapper.ts");
 let mongo: any;
 // before any tests start up create MongoMemoryServer instance in memory
 // allow us to run multiple different test suites at same time across different micro-services

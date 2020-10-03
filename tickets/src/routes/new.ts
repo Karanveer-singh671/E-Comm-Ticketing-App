@@ -29,11 +29,12 @@ router.post(
 
 		// create TicketCreatedPublisher
 		// get client grab as property
-		new TicketCreatedPublisher(natsWrapper.client).publish({
+		// need await here so can tell user that something is wrong in publish event
+		await new TicketCreatedPublisher(natsWrapper.client).publish({
 			id: ticket.id,
 			title: ticket.title,
 			price: ticket.price,
-			userId: ticket.userId,
+			userId: ticket.userId
 		});
 
 		res.status(201).send(ticket);
