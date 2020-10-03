@@ -1,8 +1,13 @@
 // fake implementation for testing
 export const natsWrapper = {
 	client: {
-		publish: (subject: string, data: string, callback: () => void) => {
-			callback();
-		},
+		// need mock function so can invoke
+		publish: jest
+			.fn()
+			.mockImplementation(
+				(subject: string, data: string, callback: () => void) => {
+					callback();
+				}
+			),
 	},
 };
