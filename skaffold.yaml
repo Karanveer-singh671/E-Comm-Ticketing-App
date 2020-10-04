@@ -25,7 +25,15 @@ build:
           - src: "**/*.js"
             dest: .
     - image: karanveersinghdocker/tickets
-      context: auth
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: karanveersinghdocker/orders
+      context: orders
       docker:
         dockerfile: Dockerfile
       sync:
