@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ordersdddsssss-mongo
+      app: orders-mongo
   template:
     metadata:
       labels:
