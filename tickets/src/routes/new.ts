@@ -2,9 +2,8 @@ import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@ksticketing/common";
 import { Ticket } from "../models/ticket";
-import { TicketCreatedPublisher } from "../../../nats-test/src/events/ticket-created-publisher";
 import { natsWrapper } from "../nats-wrapper";
-
+import { TicketCreatedPublisher } from "../events/publishers/
 const router = express.Router();
 
 router.post(
@@ -34,7 +33,7 @@ router.post(
 			id: ticket.id,
 			title: ticket.title,
 			price: ticket.price,
-			userId: ticket.userId
+			userId: ticket.userId,
 		});
 
 		res.status(201).send(ticket);
