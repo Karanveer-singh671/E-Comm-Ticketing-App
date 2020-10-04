@@ -3,7 +3,7 @@ import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@ksticketing/common";
 import { Ticket } from "../models/ticket";
 import { natsWrapper } from "../nats-wrapper";
-import { TicketCreatedPublisher } from "../events/publishers/
+import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
 const router = express.Router();
 
 router.post(
