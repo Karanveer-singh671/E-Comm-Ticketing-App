@@ -8,6 +8,7 @@ import { NotFoundError } from "../../../common/src/errors/not-found-error";
 import { OrderStatus } from "../../../common/src/events/types/order-status";
 import { BadRequestError } from "../../../common/src/errors/bad-request-error";
 const router = express.Router();
+const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes
 
 router.post(
 	"/api/orders",
@@ -39,11 +40,19 @@ router.post(
 			throw new BadRequestError("Ticket is already reserved");
 		}
 		// Calculate expiration date for the Order
+		const expiration = new Date();
 
+		expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 		// build the order and save to the Database
-
+		const order = Order.build({
+			userId: req.currentUser!.id,
+			status: OrderStatus.Created,
+			expiresAt: expiration,
+			ticket,
+		});
+		await order.save();
 		// publish an event saying that an order was created
-		res.send({});
+		res.status(201).send(order);
 	}
 );
 
