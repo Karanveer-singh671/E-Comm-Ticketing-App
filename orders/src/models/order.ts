@@ -1,5 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import { OrderStatus } from "@ksticketing/common";
+import { TicketDoc } from "./ticket";
 
 interface OrderAttrs {
 	userId: string;
@@ -29,7 +30,7 @@ const orderSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			enum: Object.values(OrderStatus), // mongoose will set to one of the values in the enum
-			default: OrderStatus.Created
+			default: OrderStatus.Created,
 		},
 		expiresAt: {
 			type: mongoose.Schema.Types.Date, // not required since once purchase ticket will not want it to expire
