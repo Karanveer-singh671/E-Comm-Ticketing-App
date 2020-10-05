@@ -4,9 +4,8 @@ import { body } from "express-validator";
 import mongoose from "mongoose";
 import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
-import { NotFoundError } from "../../../common/src/errors/not-found-error";
-import { OrderStatus } from "../../../common/src/events/types/order-status";
-import { BadRequestError } from "../../../common/src/errors/bad-request-error";
+import { NotFoundError, BadRequestError } from "@ksticketing/common";
+import { OrderStatus } from "@ksticketing/common";
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes
 
