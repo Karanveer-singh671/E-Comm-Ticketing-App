@@ -6,6 +6,8 @@ import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
 import { NotFoundError, BadRequestError } from "@ksticketing/common";
 import { OrderStatus } from "@ksticketing/common";
+import { OrderCreatedPublisher } from "../../../orders/src/events/publishers/order-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes
 
@@ -51,6 +53,16 @@ router.post(
 		});
 		await order.save();
 		// publish an event saying that an order was created
+		new OrderCreatedPublisher(natsWrapper.client).publish({
+			id: order.id,
+			status: order.status,
+			userId: order.userId,
+			expiresAt: order.expiresAt.toISOString(), // need UTC time format instead of e.g PST,MST,EST
+			ticket: {
+				id: ticket.id,
+				price: ticket.price,
+			},
+		});
 		res.status(201).send(order);
 	}
 );
