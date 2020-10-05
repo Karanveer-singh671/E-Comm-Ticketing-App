@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Order } from "../../models/order";
 import { Ticket } from "../../models/ticket";
 import { OrderStatus } from "@ksticketing/common";
+import { natsWrapper } from "../../nats-wrapper";
 
 it("returns an error if the ticket does not exist", async () => {
 	const ticketId = mongoose.Types.ObjectId();
@@ -81,4 +82,24 @@ it("can only be accessed if the user is signed in", async () => {
 	await request(app).post("/api/orders").send({}).expect(401);
 });
 
-it.todo("emits an order created event");
+it("emits an order created event", async () => {
+	const ticket = Ticket.build({
+		title: "concert",
+		price: 20,
+	});
+
+	// cookie for user
+	const cookie = global.signin();
+	// save ticket
+	await ticket.save();
+	await request(app)
+		.post("/api/orders")
+		.set("Cookie", cookie)
+		.send({
+			// send ticket with an order that wasn't made yet
+			ticketId: ticket.id,
+		})
+		.expect(201);
+
+	expect(natsWrapper.client).toHaveBeenCalled();
+});

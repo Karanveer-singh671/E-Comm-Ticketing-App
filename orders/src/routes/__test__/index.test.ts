@@ -1,8 +1,7 @@
 import request from "supertest";
 import { app } from "../../app";
-import { Order } from "../../models/order";
+import { Order, OrderStatus } from "../../models/order";
 import { Ticket } from "../../models/ticket";
-import { OrderStatus } from "../../../../common/src/events/types/order-status";
 const buildTicket = async () => {
 	const ticket = Ticket.build({
 		title: "concert",

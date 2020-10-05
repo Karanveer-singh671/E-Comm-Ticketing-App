@@ -53,16 +53,16 @@ router.post(
 		});
 		await order.save();
 		// publish an event saying that an order was created
-		new OrderCreatedPublisher(natsWrapper.client).publish({
-			id: order.id,
-			status: order.status,
-			userId: order.userId,
-			expiresAt: order.expiresAt.toISOString(), // need UTC time format instead of e.g PST,MST,EST
-			ticket: {
-				id: ticket.id,
-				price: ticket.price,
-			},
-		});
+		// await new OrderCreatedPublisher(natsWrapper.client).publish({
+		// 	id: order.id,
+		// 	status: order.status,
+		// 	userId: order.userId,
+		// 	expiresAt: order.expiresAt.toISOString(), // need UTC time format instead of e.g PST,MST,EST
+		// 	ticket: {
+		// 		id: ticket.id,
+		// 		price: ticket.price,
+		// 	},
+		// });
 		res.status(201).send(order);
 	}
 );
