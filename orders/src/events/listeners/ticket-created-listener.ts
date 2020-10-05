@@ -1,12 +1,19 @@
 import { Message } from "node-nats-streaming";
 import { Subjects, Listener, TicketCreatedEvent } from "@ksticketing/common";
 import { Ticket } from "../../models/ticket";
+import { queueGroupName } from "./queue-group-name";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
-  subject: Subjects.TicketCreated = Subjects.TicketCreated;
-  queueGroupName = 'orders-service'
+	subject: Subjects.TicketCreated = Subjects.TicketCreated;
+	queueGroupName = queueGroupName;
 
-  onMessage(data: TicketCreatedEvent['data'], msg: Message) {
-    
-  }
+	async onMessage(data: TicketCreatedEvent["data"], msg: Message) {
+		const { title, price } = data;
+		const ticket = Ticket.build({
+			title,
+			price,
+		});
+		await ticket.save();
+		msg.ack();
+	}
 }
