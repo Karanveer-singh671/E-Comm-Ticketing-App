@@ -7,7 +7,7 @@ it("fetches an order", async () => {
 	const cookie = global.signin();
 	// create a ticket
 	const ticket = Ticket.build({
-		id: "1234",
+		id: mongoose.Types.ObjectId().toHexString(),
 		title: "concert",
 		price: 20,
 	});
@@ -33,7 +33,7 @@ it("fetches an order", async () => {
 
 it("should return a 404 if the order is not found", async () => {
 	const cookie = global.signin();
-	const fakeOrderId = mongoose.Types.ObjectId();
+	const fakeOrderId = mongoose.Types.ObjectId().toHexString();
 	// try to get order that does not exist
 	await request(app)
 		.get(`/api/orders/${fakeOrderId}`)
@@ -45,7 +45,7 @@ it("returns a 401 if one user tries to fetch another users order", async () => {
 	const cookie = global.signin();
 	// create a ticket
 	const ticket = Ticket.build({
-    id: "1234",
+		id: mongoose.Types.ObjectId().toHexString(),
 		title: "concert",
 		price: 20,
 	});

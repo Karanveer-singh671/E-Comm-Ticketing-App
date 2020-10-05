@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 it("marks an order as cancelled", async () => {
 	// create ticket with Ticket model
 	const ticket = Ticket.build({
-		id: "1221",
+		id: mongoose.Types.ObjectId().toHexString(),
 		title: "concert",
 		price: 10,
 	});
@@ -49,7 +49,7 @@ it("returns a 401 if one user tries to delete another users order", async () => 
 	const cookie = global.signin();
 	// create a ticket
 	const ticket = Ticket.build({
-    id: "1234",
+		id: mongoose.Types.ObjectId().toHexString(),
 		title: "concert",
 		price: 20,
 	});
@@ -73,7 +73,7 @@ it("returns a 401 if one user tries to delete another users order", async () => 
 
 it("emits a order cancelled event", async () => {
 	const ticket = Ticket.build({
-    id: "1234",
+		id: mongoose.Types.ObjectId().toHexString(),
 		title: "concert",
 		price: 20,
 	});
