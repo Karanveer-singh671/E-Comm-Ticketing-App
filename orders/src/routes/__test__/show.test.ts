@@ -7,6 +7,7 @@ it("fetches an order", async () => {
 	const cookie = global.signin();
 	// create a ticket
 	const ticket = Ticket.build({
+		id: "1234",
 		title: "concert",
 		price: 20,
 	});
@@ -44,6 +45,7 @@ it("returns a 401 if one user tries to fetch another users order", async () => {
 	const cookie = global.signin();
 	// create a ticket
 	const ticket = Ticket.build({
+    id: "1234",
 		title: "concert",
 		price: 20,
 	});
