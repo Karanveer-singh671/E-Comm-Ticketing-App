@@ -23,3 +23,4 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 		msg.ack();
 	}
 }
+
