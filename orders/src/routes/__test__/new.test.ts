@@ -1,6 +1,9 @@
 import request from "supertest";
 import { app } from "../../app";
 import mongoose from "mongoose";
+import { Order } from "../../models/order";
+import { Ticket } from "../../models/ticket";
+import { OrderStatus } from "@ksticketing/common";
 
 it("returns an error if the ticket does not exist", async () => {
 	const ticketId = mongoose.Types.ObjectId();
@@ -12,9 +15,49 @@ it("returns an error if the ticket does not exist", async () => {
 		.expect(404);
 });
 
-it("returns an error if the ticket is already reserved", async () => {});
+it("returns an error if the ticket is already reserved", async () => {
+	const ticket = Ticket.build({
+		title: "concert",
+		price: 20,
+	});
+	// save ticket
+	await ticket.save();
+	// associate saved ticket with the order
+	const order = Order.build({
+		ticket,
+		userId: "randomUserId",
+		status: OrderStatus.Created,
+		expiresAt: new Date(),
+	});
+	// save the order
+	await order.save();
+	// now try to create an order w the ticket already saved in order after saving order
+	await request(app)
+		.post("/api/orders")
+		.set("Cookie", global.signin())
+		.send({
+			// try the ticket id that already made order with
+			ticketId: ticket.id,
+		})
+		.expect(400);
+});
 
-it("reserves a ticket", async () => {});
+it("reserves a ticket", async () => {
+	const ticket = Ticket.build({
+		title: "concert",
+		price: 20,
+	});
+	// save ticket
+	await ticket.save();
+	const response = await request(app)
+		.post("/api/orders")
+		.set("Cookie", global.signin())
+		.send({
+			// send ticket with an order that wasn't made yet
+			ticketId: ticket.id,
+		})
+		.expect(201);
+});
 
 it("should throw 400 bad request if it does not have a body with a ticketId", async () => {
 	await request(app)
@@ -27,3 +70,5 @@ it("should throw 400 bad request if it does not have a body with a ticketId", as
 it("can only be accessed if the user is signed in", async () => {
 	await request(app).post("/api/orders").send({}).expect(401);
 });
+
+it.todo("emits an order created event");
