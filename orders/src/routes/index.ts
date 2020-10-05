@@ -4,7 +4,7 @@ import { Order } from "../models/order";
 const router = express.Router();
 // don't need validateRequest since get request and not checking a body
 // find all orders that relate to a particular user
-router.get("/api/order", requireAuth, async (req: Request, res: Response) => {
+router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {
 	const orders = await Order.find({
 		userId: req.currentUser!.id,
 	})

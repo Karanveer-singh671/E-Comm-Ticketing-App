@@ -47,16 +47,26 @@ it("reserves a ticket", async () => {
 		title: "concert",
 		price: 20,
 	});
+
+	// cookie for user
+	const cookie = global.signin();
 	// save ticket
 	await ticket.save();
-	const response = await request(app)
+	const { body: ticketCreated } = await request(app)
 		.post("/api/orders")
-		.set("Cookie", global.signin())
+		.set("Cookie", cookie)
 		.send({
 			// send ticket with an order that wasn't made yet
 			ticketId: ticket.id,
 		})
 		.expect(201);
+	// check if was able to save order into db and that it had ticket id equal to one above
+	const response = await request(app)
+		.get("/api/orders")
+		.set("Cookie", cookie)
+		.expect(200);
+	expect(response.body[0].ticket.id).toEqual(ticketCreated.id);
+	expect(response.body.length).toEqual(1);
 });
 
 it("should throw 400 bad request if it does not have a body with a ticketId", async () => {
