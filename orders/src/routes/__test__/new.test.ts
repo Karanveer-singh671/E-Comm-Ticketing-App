@@ -65,7 +65,7 @@ it("reserves a ticket", async () => {
 		.get("/api/orders")
 		.set("Cookie", cookie)
 		.expect(200);
-	expect(response.body[0].ticket.id).toEqual(ticketCreated.id);
+	expect(response.body[0].ticket.id).toEqual(ticket.id);
 	expect(response.body.length).toEqual(1);
 });
 
