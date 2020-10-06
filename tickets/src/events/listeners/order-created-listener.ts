@@ -2,7 +2,7 @@ import { Listener, OrderCreatedEvent, Subjects } from "@ksticketing/common";
 import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/ticket";
-
+import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 	readonly subject = Subjects.OrderCreated;
 	queueGroupName = queueGroupName;
@@ -18,6 +18,9 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 		ticket.set({ orderId: data.id });
 		// save the ticket
 		await ticket.save();
+
+		// emit an event to say that the ticket has been changed to keep services synced
+		new TicketUpdatedPublisher(natsWrapper);
 		// ack the message
 		msg.ack();
 	}
