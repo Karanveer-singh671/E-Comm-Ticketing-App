@@ -5,6 +5,7 @@ import {
 	NotFoundError,
 	requireAuth,
 	NotAuthorizedError,
+	BadRequestError,
 } from "@ksticketing/common";
 import { Ticket } from "../models/ticket";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
@@ -27,6 +28,11 @@ router.put(
 
 		if (!ticket) {
 			throw new NotFoundError();
+		}
+
+		// check if orderId exists (if so -> ticket is reserved and should prevent edits else it is unreserved)
+		if (ticket.orderId) {
+			throw new BadRequestError("Cannot update/edit a reserved ticket");
 		}
 
 		if (ticket.userId !== req.currentUser!.id) {
