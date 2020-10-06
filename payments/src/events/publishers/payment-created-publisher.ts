@@ -1,5 +1,5 @@
 import { Subjects, Publisher, PaymentCreatedEvent } from "@ksticketing/common";
 
 export class PaymentCreatedPublisher extends Publisher<PaymentCreatedEvent> {
-	readonly subject = Subjects.PaymentComplete;
+	readonly subject = Subjects.PaymentCreated;
 }
