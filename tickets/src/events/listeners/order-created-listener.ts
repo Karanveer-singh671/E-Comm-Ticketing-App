@@ -20,7 +20,15 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 		await ticket.save();
 
 		// emit an event to say that the ticket has been changed to keep services synced
-		new TicketUpdatedPublisher(natsWrapper);
+		// use await so if fails won't ack message
+		await new TicketUpdatedPublisher(this.client).publish({
+			id: ticket.id,
+			price: ticket.price,
+			title: ticket.title,
+			userId: ticket.userId,
+			orderId: ticket.orderId,
+			version: ticket.version,
+		});
 		// ack the message
 		msg.ack();
 	}
