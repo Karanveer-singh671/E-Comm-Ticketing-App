@@ -10,6 +10,7 @@ import {
 } from "@ksticketing/common";
 import { Order } from "../models/order";
 import { stripe } from "../stripe";
+import { Payment } from "../models/payment";
 
 const router = express.Router();
 
@@ -33,12 +34,17 @@ router.post(
 		if (order.status === OrderStatus.Cancelled) {
 			throw new BadRequestError("Cannot pay for cancelled order");
 		}
-		await stripe.charges.create({
+		const charge = await stripe.charges.create({
 			currency: "usd",
 			amount: order.price * 100,
 			source: token,
 		});
-
+		// build and save a payment to tie orders that have been paid for
+		const payment = Payment.build({
+			orderId,
+			stripeId: charge.id,
+		});
+		await payment.save();
 		res.status(201).send({ success: true });
 	}
 );

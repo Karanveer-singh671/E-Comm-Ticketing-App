@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Order } from "../../models/order";
 import { OrderStatus } from "@ksticketing/common";
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/payment";
 
 jest.mock("../../stripe");
 
@@ -88,4 +89,12 @@ it("returns a 201 with valid inputs", async () => {
 	expect(chargeOptions.source).toEqual("tok_visa");
 	expect(chargeOptions.amount).toEqual(order.price * 100);
 	expect(chargeOptions.currency).toEqual("usd");
+	// should be findOne as can be many orders but implemented with mock testing
+	// const stripeId = "1213456789";
+	// const payment = await Payment.findById({
+	// 	orderId: order.id,
+	// 	stripeId,
+	// 	// should use stripeCharge here
+	// });
+	// expect(payment).not.toBeNull();
 });
