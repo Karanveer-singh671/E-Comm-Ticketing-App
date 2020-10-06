@@ -36,4 +36,24 @@ it("returns a 401 when purchasing order that does not belong to the user", async
 		.expect(401);
 });
 
-it("returns a 400 when purchasing a cancelled order", async () => {});
+it("returns a 400 when purchasing a cancelled order", async () => {
+	const userId = mongoose.Types.ObjectId().toHexString();
+	// create and save an order
+	const order = Order.build({
+		id: mongoose.Types.ObjectId().toHexString(),
+		userId,
+		status: OrderStatus.Cancelled,
+		version: 0,
+		price: 5,
+	});
+	await order.save();
+	// need to make sure that the userId of order is the same as the current user Id when making a payment request
+	await request(app)
+		.post("/api/payments")
+		.set("Cookie", global.signin(userId))
+		.send({
+			orderId: order.id,
+			token: "asdf",
+		})
+		.expect(400);
+});
