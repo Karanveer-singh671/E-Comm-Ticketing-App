@@ -1,22 +1,22 @@
 {
-  "name": "E-Comm-Ticket-App",
-  "version": "1.0.0",
-  "description": "### Create a Production grade E-Comm Ticket Management application using a Micro-service Architecture",
-  "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Karanveer-singh671/E-Comm-Ticketing-App.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Karanveer-singh671/E-Comm-Ticketing-App/issues"
-  },
-  "homepage": "https://github.com/Karanveer-singh671/E-Comm-Ticketing-App#readme"
+	"name": "E-Comm-Ticket-App",
+	"version": "1.0.0",
+	"description": "### Create a Production grade E-Comm Ticket Management application using a Micro-service Architecture",
+	"main": "index.js",
+	"dependencies": {},
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Karanveer-singh671/E-Comm-Ticketing-App.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Karanveer-singh671/E-Comm-Ticketing-App/issues"
+	},
+	"homepage": "https://github.com/Karanveer-singh671/E-Comm-Ticketing-App#readme"
 }

@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import request from "supertest";
 import { app } from "../app";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 declare global {
 	namespace NodeJS {
@@ -13,7 +16,7 @@ declare global {
 }
 
 jest.mock("../nats-wrapper");
-
+process.env.STRIPE_KEY = "sk_test_cBDaCSjSvLh7TvcM8PRoIRof";
 let mongo: any;
 beforeAll(async () => {
 	process.env.JWT_KEY = "asdfasdf";
