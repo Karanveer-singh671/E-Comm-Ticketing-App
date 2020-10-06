@@ -12,6 +12,7 @@ interface TicketDoc extends mongoose.Document {
 	userId: string;
 	// to add version instead of writing ticket.__v
 	version: number;
+	orderId?: string
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -31,6 +32,9 @@ const ticketSchema = new mongoose.Schema(
 		userId: {
 			type: String,
 			required: true,
+		},
+		orderId: {
+			type: String,
 		},
 	},
 	{
