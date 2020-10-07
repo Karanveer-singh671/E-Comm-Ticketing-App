@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-const OrderShow = ({ order }) => {
-	const [timeLeft, setTimeLeft] = useState("");
+import StripeCheckout from "react-stripe-checkout";
+const OrderShow = ({ order, currentUser }) => {
+	const [timeLeft, setTimeLeft] = useState(0);
 	// call only 1 time when component first displays on screen use []
 	useEffect(() => {
 		const findTimeLeft = () => {
@@ -19,9 +20,23 @@ const OrderShow = ({ order }) => {
 		};
 		// put order in array if referencing dependency like order need to add to array
 	}, [order]);
+
+	if (timeLeft < 0) {
+		return <div>Order Expired</div>;
+	}
 	const msLeft = new Date(order.expiresAt) - new Date();
 
-	return <div>Time left to pay: {timeLeft} seconds </div>;
+	return (
+		<div>
+			Time left to pay: {timeLeft} seconds
+			<StripeCheckout
+				token={(token) => console.log(token)}
+				stripeKey="pk_test_j4FVORmnyI2bG6DlBqeqcnAC"
+				amount={order.ticket.price * 100}
+				email={currentUser.email}
+			/>
+		</div>
+	);
 };
 OrderShow.getInitialProps = async (context, client) => {
 	const { orderId } = context.query;
