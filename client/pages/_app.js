@@ -1,36 +1,35 @@
-import "bootstrap/dist/css/bootstrap.css";
-import buildClient from "../api/build-client";
-import Header from "../components/header";
+import 'bootstrap/dist/css/bootstrap.css';
+import buildClient from '../api/build-client';
+import Header from '../components/header';
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
-	return (
-		<div>
-			<Header currentUser={currentUser} />
-			<div className="container">
-				<Component currentUser={currentUser} {...pageProps} />
-			</div>
-		</div>
-	);
+  return (
+    <div>
+      <Header currentUser={currentUser} />
+      <div className="container">
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
+    </div>
+  );
 };
 
 AppComponent.getInitialProps = async (appContext) => {
-	const client = buildClient(appContext.ctx);
-	const { data } = await client.get("/api/users/currentuser");
+  const client = buildClient(appContext.ctx);
+  const { data } = await client.get('/api/users/currentuser');
 
-	let pageProps = {};
-	if (appContext.Component.getInitialProps) {
-		// add client as argument so we don't have to buildClient each time, provide currentUser so we can get access to CurrentUser data
-		pageProps = await appContext.Component.getInitialProps(
-			appContext.ctx,
-			client,
-			data.currentUser
-		);
-	}
+  let pageProps = {};
+  if (appContext.Component.getInitialProps) {
+    pageProps = await appContext.Component.getInitialProps(
+      appContext.ctx,
+      client,
+      data.currentUser
+    );
+  }
 
-	return {
-		pageProps,
-		...data,
-	};
+  return {
+    pageProps,
+    ...data,
+  };
 };
 
 export default AppComponent;
