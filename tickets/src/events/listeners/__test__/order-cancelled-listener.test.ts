@@ -35,6 +35,6 @@ it("updates the ticket order cancelled (remove orderId), publishes the event to 
 
 	const updatedTicket = await Ticket.findById(ticket.id);
 	expect(updatedTicket!.orderId).not.toBeDefined();
-	expect(msg.ack()).toHaveBeenCalled();
+	expect(msg.ack).toHaveBeenCalled();
 	expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
