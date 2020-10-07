@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 import StripeCheckout from "react-stripe-checkout";
 const OrderShow = ({ order, currentUser }) => {
 	const [timeLeft, setTimeLeft] = useState(0);
@@ -9,7 +10,7 @@ const OrderShow = ({ order, currentUser }) => {
 		body: {
 			orderId: order.id,
 		},
-		onSuccess: (payment) => console.log(payment),
+		onSuccess: (payment) => Router.push("/orders"),
 	});
 	// call only 1 time when component first displays on screen use []
 	useEffect(() => {
@@ -36,15 +37,26 @@ const OrderShow = ({ order, currentUser }) => {
 	const msLeft = new Date(order.expiresAt) - new Date();
 
 	return (
-		<div>
-			Time left to pay: {timeLeft} seconds
-			<StripeCheckout
-				token={({ id }) => doRequest({ token: id })}
-				stripeKey="pk_test_j4FVORmnyI2bG6DlBqeqcnAC"
-				amount={order.ticket.price * 100}
-				email={currentUser.email}
-			/>
-			{errors}
+		<div className=" centre display-4">
+			Payment With Stripe
+			<div class="py-5">
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<div className="rounded bg-gradient-2 text-black shadow p-5 text-center mb-5">
+							<p class="mb-4 font-weight-normal text-uppercase">
+								Time left to pay: {timeLeft} seconds
+							</p>
+							<StripeCheckout
+								token={({ id }) => doRequest({ token: id })}
+								stripeKey="pk_test_j4FVORmnyI2bG6DlBqeqcnAC"
+								amount={order.ticket.price * 100}
+								email={currentUser.email}
+							/>
+							{errors}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
