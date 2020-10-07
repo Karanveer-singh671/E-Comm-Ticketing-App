@@ -1,3 +1,4 @@
+import Link from "next/link";
 const LandingPage = ({ currentUser }) => {
 	// loop over array of tickets and build the table record with the row value as title and price
 	const ticketList = tickets.map((ticket) => {
@@ -5,6 +6,11 @@ const LandingPage = ({ currentUser }) => {
 			<tr key={ticket.id}>
 				<td>{ticket.title}</td>
 				<td>{ticket.price}</td>
+				<td>
+					<link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+						<a>View</a>
+					</link>
+				</td>
 			</tr>
 		);
 	});
@@ -17,6 +23,7 @@ const LandingPage = ({ currentUser }) => {
 					<tr>
 						<th>Title</th>
 						<th>Price</th>
+						<th>Link</th>
 					</tr>
 				</thead>
 				<tbody>{TicketList}</tbody>
