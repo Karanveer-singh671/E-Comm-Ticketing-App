@@ -1,0 +1,24 @@
+name: deploy-payments
+
+on:
+  push:
+    branches:
+      - master # whenever merge request to master branch
+    paths:
+      - "payments/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 #checkout repo
+      - run: cd payments && docker build -t karanveersinghdocker/payments . # change to payments service and build image
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD # login credentials
+        env:
+          $DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} # from github secret
+          $DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} # from github secret
+      - run: docker push karanveersinghdocker/payments
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save TicketMaster
+      - run: kubectl rollout restart deployment payments-depl # use latest version of payments image

@@ -1,0 +1,24 @@
+name: deploy-expiration
+
+on:
+  push:
+    branches:
+      - master # whenever merge request to master branch
+    paths:
+      - "expiration/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 #checkout repo
+      - run: cd expiration && docker build -t karanveersinghdocker/expiration . # change to expiration service and build image
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD # login credentials
+        env:
+          $DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} # from github secret
+          $DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} # from github secret
+      - run: docker push karanveersinghdocker/expiration
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save TicketMaster
+      - run: kubectl rollout restart deployment expiration-depl # use latest version of expiration image
